@@ -1,7 +1,8 @@
 <?php
 
-use App\Http\Controllers\PostController;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PostController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,6 +17,18 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+})->name('home');
+
+Route::get('/endpoint', function () {
+    // return redirect('/');
+    // return redirect()->route('home');
+    return to_route('home');
+});
+
+Route::get('/str', function () {
+    // return Str::of('hello world')->slug();
+    // return Str('hello world')->slug();
+    return Str()->slug('hello world');
 });
 
 Route::controller(PostController::class)->group(function() {
