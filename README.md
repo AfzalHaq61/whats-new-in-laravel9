@@ -39,4 +39,19 @@ Route::get('/endpoint', function () {
     return to_route('home');
 });
 
+4-Video (Refreshed Ignition Error Page)
+
+Route::get('/exception', function() {
+    throw new \Exception('whoops');
+});
+
+you can throw axception like this
+but there is a small styling changes in laravel 9. documentaion and setting schanges to top right
+
+5-Video (Render a Blade String)
+
+If you want to render somthing before passing to view you can do it like this
+Route::get('/blade-rendering', function() {
+    return Blade::render('{{ $greeting }}, @if (true) World @else folks @endif', ['greeting' => 'hello']);
+});
 
