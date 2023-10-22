@@ -15,6 +15,10 @@ use App\Http\Controllers\PostController;
 |
 */
 
+Route::get('/exception', function() {
+    throw new \Exception('whoops');
+});
+
 Route::get('/', function () {
     return view('welcome');
 })->name('home');
