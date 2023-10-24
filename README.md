@@ -55,3 +55,25 @@ Route::get('/blade-rendering', function() {
     return Blade::render('{{ $greeting }}, @if (true) World @else folks @endif', ['greeting' => 'hello']);
 });
 
+6-Video (Forced Scope Bindings)
+
+Route::get('users/{user}/posts/{post}', function(User $user, Post $post) {
+    return $post;
+})
+
+http://127.0.0.1:8000/users/1/posts/1
+
+it will wotk smoothly but when we pass another id for post it will give you the post but when you see the user_id in the url it will be different so in some apps the first wild card is neceeasary to check so we can restrict it by scope binding
+
+we can do it by two ways
+
+Route::get('users/{user}/posts/{post:id}', function(User $user, Post $post) {
+    return $post;
+})
+
+OR
+
+Route::get('users/{user}/posts/{post}', function(User $user, Post $post) {
+    return $post;
+})->scopeBindings();
+
