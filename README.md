@@ -67,12 +67,14 @@ it will wotk smoothly but when we pass another id for post it will give you the 
 
 we can do it by two ways
 
+in laravel 8
 Route::get('users/{user}/posts/{post:id}', function(User $user, Post $post) {
     return $post;
 })
 
 OR
 
+in laravel 9
 Route::get('users/{user}/posts/{post}', function(User $user, Post $post) {
     return $post;
 })->scopeBindings();
