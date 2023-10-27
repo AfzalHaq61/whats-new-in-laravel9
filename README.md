@@ -79,3 +79,28 @@ Route::get('users/{user}/posts/{post}', function(User $user, Post $post) {
     return $post;
 })->scopeBindings();
 
+7-Video (Test Coverage with XDebug)
+
+pecl install xdebug
+first of all we have to install xdbug on this command
+
+if not set in php ini file set it there
+php -ini
+
+then restart server
+
+you can now see it in 
+php -v
+
+then set mode like this
+XDEBUG_MODE=coverage php artisan test
+
+then you can test you coverage. it will show you how much you project file are covered
+XDEBUG_MODE=coverage php artisan test --coverage
+
+you can set minimum treshold like this
+XDEBUG_MODE=coverage php artisan test --coverage --min=80
+
+
+
+
