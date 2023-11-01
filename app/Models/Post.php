@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Scout\Attributes\SearchUsingFullText;
 use Laravel\Scout\Searchable;
 
 class Post extends Model
@@ -14,6 +15,7 @@ class Post extends Model
         return $this->belongsTo(User::class);
     }
 
+    #[SearchUsingFullText('body')]
     public function toSearchableArray()
     {
         return [

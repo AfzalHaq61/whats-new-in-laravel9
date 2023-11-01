@@ -146,3 +146,23 @@ you can also paginate
 Route::get('scout', function() {
     return Post::search('Voluptatum')->paginate();
 });
+
+9-Video (Full Text Indexing)
+
+add fulltext() to body so we can search full text for body.
+Schema::create('posts', function (Blueprint $table) {
+            $table->id();
+            $table->foreignIdFor(User::class)->constrained()->onDelete('cascade');
+            $table->string('title');
+            $table->text('body')->fulltext();
+            $table->timestamps();
+        });
+
+you can seed only one seeder like this
+php artisan migrate:fresh --seed --seeder=PostSeeder
+
+then you can search in tinker full text searching like this like this
+Post::whereFullText('body', 'natus')->count()
+
+in previous video we have search post model but we were searching by Wherelike functionolity but when we add this check then it will search fulltext search. bu twe have to add fulltect() to its table in migration.
+#[SearchUsingFullText('body')]
