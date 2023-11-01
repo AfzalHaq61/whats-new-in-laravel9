@@ -101,6 +101,48 @@ XDEBUG_MODE=coverage php artisan test --coverage
 you can set minimum treshold like this
 XDEBUG_MODE=coverage php artisan test --coverage --min=80
 
+8-Video (Laravel Scout Database Engine)
+we can search in model by scout easily also we can paginate on it
 
+how to install
+composer require laravel/scout
 
+how to publish
+php artisan vendor:publish
 
+and then select scout it will create scout file in config folder so configure it
+
+'driver' => env('SCOUT_DRIVER', 'algolia'),
+set it scout driver to database
+
+now add seacable trait for the model in which you want to search
+class Post extends Model
+{
+    use HasFactory, Searchable;
+
+    public function user() {
+        return $this->belongsTo(User::class);
+    }
+}
+
+this trait have functions, realations and scopes on which you will search in models
+
+now we will use it like this
+Route::get('scout', function() {
+    return Post::search('Voluptatum')->get();
+});
+
+by this funciton you will find search only in ttile and body
+
+public function toSearchableArray()
+    {
+        return [
+            'title' => $this->title,
+            'body' => $this->body,
+        ];
+    }
+
+you can also paginate
+Route::get('scout', function() {
+    return Post::search('Voluptatum')->paginate();
+});

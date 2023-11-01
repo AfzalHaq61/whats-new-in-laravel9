@@ -52,3 +52,6 @@ Route::get('users/{user}/posts/{post}', function(User $user, Post $post) {
     return $post;
 })->scopeBindings();
 
+Route::get('scout', function() {
+    return Post::search('Voluptatum quibusdam nulla dolores eos quisquam maxime et.')->paginate();
+});
