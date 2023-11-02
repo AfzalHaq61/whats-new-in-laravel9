@@ -2,6 +2,7 @@
 
 use App\Models\Post;
 use App\Models\User;
+use App\Enums\PostState;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Route;
@@ -42,16 +43,20 @@ Route::get('/str', function () {
     return Str()->slug('hello world');
 });
 
-Route::controller(PostController::class)->group(function() {
-    Route::get('/posts', 'index');
-    Route::post('/posts', 'store');
-    Route::get('/posts/{post}', 'show');
-});
+// Route::controller(PostController::class)->group(function() {
+//     Route::get('/posts', 'index');
+//     Route::post('/posts', 'store');
+//     Route::get('/posts/{post}', 'show');
+// });
 
 Route::get('users/{user}/posts/{post}', function(User $user, Post $post) {
     return $post;
 })->scopeBindings();
 
 Route::get('scout', function() {
-    return Post::search('Voluptatum quibusdam nulla dolores eos quisquam maxime et.')->paginate();
+    return Post::search('Est magnam')->paginate();
+});
+
+Route::get('/posts/{state}', function(PostState $state) {
+    dd($state);
 });

@@ -166,3 +166,96 @@ Post::whereFullText('body', 'natus')->count()
 
 in previous video we have search post model but we were searching by Wherelike functionolity but when we add this check then it will search fulltext search. bu twe have to add fulltect() to its table in migration.
 #[SearchUsingFullText('body')]
+
+10-Video (Enum Attribute Casting)
+laravel 9 support enums. you can do attribute casting and route binding.
+
+Enum is like you want sone static fixed number of values;
+like status of models i.e draft state, pulbished, archive.
+
+make migration row in table like this
+$table->string('state')->default('draft');
+
+make enum class like this in app/Enums/PostState
+<?php
+
+namespace App\Enums;
+
+enum PostState: string
+{
+    case Draft = 'draft';
+    case Published = 'published';
+    case Archived = 'archived';
+}
+
+if you assign values to enum cases then it is called back enums
+when the value is not assign then the string return is not necceeassry
+
+in laravel you can cast attributes. it helps. when you get data from model but first you want to claculate on attributes of that model then do it by casting like this.
+add casts in post model. the state of model will now give values of enum not static value
+cast work in two ways when you want to store attribute then it will apply and when you want to fecth then it also will apply
+protected $casts = [
+    'state' => PostState::class
+];
+
+make field in migration.
+it will help you in migration just declare it and then what you want in php do that.
+$table->string('state')->default('draft')
+
+you can also use enum in migration liek this. it will accept these values only.
+$table->enum('state', ['draft', 'published'])
+
+you can also use enumclass like this both will work same
+$table->enum('state', PostState::class)
+
+when we fetch data
+Route::get('enum', function() {
+
+    it will give you enum data
+    $post = Post::first()->state;
+
+    it will give you enum name
+    $post = Post::first()->state->name;
+
+    it will give you enum value
+    $post = Post::first()->state->value;
+});
+
+when we create post
+
+Route::get('enum', function() {
+    $post = new Post();
+
+    $post->user_id = 1;
+    $post->title = 'title';
+    $post->body = 'body';
+
+    if we pass data other than enum then it will give us error
+    <!-- $post->state = 'sdfsdaf; -->
+
+    we can pass enum data like this
+    $post->state = PostState::Published;
+
+    $post->save();
+
+    return 'done';
+});
+
+we can check post status then we can do it like this
+Route::get('enum', function() {
+    $post = Post::inRandomOrder()->first();
+
+    if ($post->state === PostState::Draft) {
+        dd('is is draft');
+    } else {
+        dd('other');
+    }
+});
+
+inRandomOrder()
+it will give you random model
+
+We can use in wildcard like this. so it will give us the enum data. if the value is not there then will give erro rof not found
+Route::get('/posts/{state}', function(PostState $state) {
+    dd($state);
+});
