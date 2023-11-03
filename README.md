@@ -259,3 +259,70 @@ We can use in wildcard like this. so it will give us the enum data. if the value
 Route::get('/posts/{state}', function(PostState $state) {
     dd($state);
 });
+
+11-Video (Simplified Accessors and Mutators)
+
+Accessors:
+
+Accessors allow you to modify the value of an attribute when you retrieve it from a model.
+They are defined as methods in your Eloquent model and are named in a specific format: get{AttributeName}Attribute. Laravel automatically recognizes these methods as accessors.
+Accessors are useful when you want to present data differently to the user without changing the actual data in the database.
+
+Mutators:
+
+Mutators allow you to modify the value of an attribute just before it is saved to the database.
+They are defined as methods in your Eloquent model and are named in a specific format: set{AttributeName}Attribute. Laravel automatically recognizes these methods as mutators.
+Mutators are useful when you need to perform some data transformations or validation on the data before it's stored in the database.
+
+if we want accesoor path but it is not in table so first of all we will added this attribute in append and then we can use accessor method to modify this attribute
+protected $appends = [
+        'path'
+    ];
+
+in laravel 8
+$this it is use for the id
+public function getPathAttribute() {
+        return route('posts.show', $this);
+    }
+
+in laravel 9 (it will work the same jsut add attribute name with funciton, then add use Illuminate\Database\Eloquent\Casts\Attribute; and return it like this)
+only for get
+public function path(): Attribute
+    {
+        return Attribute::get(fn() => route('posts.show', $this));
+    }
+
+for set mutator
+public function path(): Attribute
+    {
+        return Attribute::set(fn() => route('posts.show', $this));
+    }
+
+for both
+
+the first will be get and the second will be set
+public function name(): Attribute
+    {
+        return new Attribute(
+            fn($value) => ucwords($value),
+            fn($value) => strtolower($value)
+        );
+    }
+
+if you are using php 8 the you can use this
+public function name(): Attribute
+{
+    return new Attribute(
+        get: fn($value) => ucwords($value),
+        set: fn($value) => strtolower($value)
+    );
+}
+
+in laravel 8
+public funciton getNameAttribute() {
+
+}
+
+public funciton setNameAttribute() {
+    
+}

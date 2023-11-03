@@ -55,8 +55,13 @@ Route::get('users/{user}/posts/{post}', function(User $user, Post $post) {
 
 Route::get('scout', function() {
     return Post::search('Est magnam')->paginate();
-});
+})->name('hello');
 
-Route::get('/posts/{state}', function(PostState $state) {
-    dd($state);
-});
+// Route::get('/posts/{state}', function(PostState $state) {
+//     dd($state);
+// });
+
+Route::get('/posts/{post}', function(Post $post) {
+    return $post;
+})->name('posts.show');
+
